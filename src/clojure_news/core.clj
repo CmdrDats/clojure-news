@@ -100,26 +100,3 @@
 
 (defn start-server []
   (compare-and-set! srv @srv (server/start 8080)))
-
-;; TODO: Design email template.
-;; TODO: Load and save rankings (SQLite)
-;; TODO: build email 'paper' with highlights of the day
-;; TODO: Name email something like "The #clojure Times" or "The
-;; #clojure Daily"
-;; TODO: cron every day for previouse day cache, ranking and email
-;; publishing.
-;; TODO: Save updated ranking on every day cron
-;; TODO: find hyperlinks
-;; TODO: sense images and display them in a nicely formatted way.
-;; TODO: pull in gists and format code snippets (maybe lift the
-;; formatting off github?
-;; TODO: Inline video if pointing to youtube?
-;; TODO: Show broken links with a red cross
-;; TODO: Pull ranking over a month, showing 'active' leaderboard in mail.
-;; TODO: make clojure-bot responses stylized, especially doc strings.
-;; TODO: Ranking icons
-;; TODO: Evaluate a different rule strategy? maybe.
-;; TODO: Blast from the past - Score all the files, pick high scoring
-;; sections from the high logs. Include in email send.
-;; TODO: Ideally build a #clojure irc bot that would gather chat logs
-;; directly.
