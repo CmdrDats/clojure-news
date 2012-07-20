@@ -1,0 +1,796 @@
+.rank-1 {
+	background: url('../img/ranks.gif') no-repeat -1px -23px;
+	width: 23px;
+	height: 11px;
+}
+.rank-2 {
+	background: url('../img/ranks.gif') no-repeat -25px -21px;
+	width: 23px;
+	height: 13px;
+}
+.rank-3 {
+	background: url('../img/ranks.gif') no-repeat -49px -18px;
+	width: 23px;
+	height: 16px;
+}
+.rank-4 {
+	background: url('../img/ranks.gif') no-repeat -73px -18px;
+	width: 23px;
+	height: 19px;
+}
+.rank-5 {
+	background: url('../img/ranks.gif') no-repeat -97px -18px;
+	width: 23px;
+	height: 22px;
+}
+.rank-6 {
+	background: url('../img/ranks.gif') no-repeat -121px -7px;
+	width: 23px;
+	height: 33px;
+}
+.rank-7 {
+	background: url('../img/ranks.gif') no-repeat -145px -7px;
+	width: 23px;
+	height: 33px;
+}
+.rank-8 {
+	background: url('../img/ranks.gif') no-repeat -169px -4px;
+	width: 23px;
+	height: 36px;
+}
+.rank-9 {
+	background: url('../img/ranks.gif') no-repeat -193px -4px;
+	width: 23px;
+	height: 36px;
+}
+.rank-10 {
+	background: url('../img/ranks.gif') no-repeat -217px -1px;
+	width: 23px;
+	height: 39px;
+}
+.rank-11 {
+	background: url('../img/ranks.gif') no-repeat -241px -1px;
+	width: 23px;
+	height: 39px;
+}
+.rank-12 {
+	background: url('../img/ranks.gif') no-repeat -265px -1px;
+	width: 23px;
+	height: 39px;
+}
+.rank-13 {
+	background: url('../img/ranks.gif') no-repeat -289px -1px;
+	width: 23px;
+	height: 39px;
+}
+
+.rank-14 {
+	background: url('../img/ranks.gif') no-repeat -1px -52px;
+	width: 23px;
+	height: 18px;
+}
+.rank-15 {
+	background: url('../img/ranks.gif') no-repeat -25px -53px;
+	width: 23px;
+	height: 22px;
+}
+.rank-16 {
+	background: url('../img/ranks.gif') no-repeat -49px -47px;
+	width: 23px;
+	height: 23px;
+}
+.rank-17 {
+	background: url('../img/ranks.gif') no-repeat -73px -55px;
+	width: 23px;
+	height: 17px;
+}
+.rank-18 {
+	background: url('../img/ranks.gif') no-repeat -97px -42px;
+	width: 23px;
+	height: 28px;
+}
+.rank-19 {
+	background: url('../img/ranks.gif') no-repeat -121px -42px;
+	width: 23px;
+	height: 32px;
+}
+.rank-20 {
+	background: url('../img/ranks.gif') no-repeat -145px -42px;
+	width: 23px;
+	height: 37px;
+}
+.rank-21 {
+	background: url('../img/ranks.gif') no-repeat -169px -42px;
+	width: 23px;
+	height: 42px;
+}
+.rank-22 {
+	background: url('../img/ranks.gif') no-repeat -193px -42px;
+	width: 23px;
+	height: 42px;
+}
+.rank-23 {
+	background: url('../img/ranks.gif') no-repeat -217px -42px;
+	width: 23px;
+	height: 42px;
+}
+.rank-24 {
+	background: url('../img/ranks.gif') no-repeat -241px -42px;
+	width: 23px;
+	height: 42px;
+}
+.rank-25 {
+	background: url('../img/ranks.gif') no-repeat -265px -42px;
+	width: 23px;
+	height: 42px;
+}
+.rank-26 {
+	background: url('../img/ranks.gif') no-repeat -1px -137px;
+	width: 23px;
+	height: 18px;
+}
+.rank-27 {
+	background: url('../img/ranks.gif') no-repeat -25px -137px;
+	width: 23px;
+	height: 22px;
+}
+.rank-28 {
+	background: url('../img/ranks.gif') no-repeat -49px -132px;
+	width: 23px;
+	height: 27px;
+}
+.rank-29 {
+	background: url('../img/ranks.gif') no-repeat -73px -127px;
+	width: 23px;
+	height: 32px;
+}
+.rank-30 {
+	background: url('../img/ranks.gif') no-repeat -97px -127px;
+	width: 23px;
+	height: 32px;
+}
+.rank-31 {
+	background: url('../img/ranks.gif') no-repeat -121px -127px;
+	width: 23px;
+	height: 37px;
+}
+.rank-32 {
+	background: url('../img/ranks.gif') no-repeat -145px -127px;
+	width: 23px;
+	height: 42px;
+}
+.rank-33 {
+	background: url('../img/ranks.gif') no-repeat -169px -127px;
+	width: 23px;
+	height: 42px;
+}
+.rank-34 {
+	background: url('../img/ranks.gif') no-repeat -193px -127px;
+	width: 23px;
+	height: 47px;
+}
+.rank-35 {
+	background: url('../img/ranks.gif') no-repeat -217px -127px;
+	width: 23px;
+	height: 47px;
+}
+.rank-36 {
+	background: url('../img/ranks.gif') no-repeat -241px -127px;
+	width: 23px;
+	height: 47px;
+}
+.rank-37 {
+	background: url('../img/ranks.gif') no-repeat -1px -86px;
+	width: 19px;
+	height: 20px;
+}
+.rank-38 {
+	background: url('../img/ranks.gif') no-repeat -21px -86px;
+	width: 19px;
+	height: 20px;
+}
+.rank-39 {
+	background: url('../img/ranks.gif') no-repeat -41px -86px;
+	width: 19px;
+	height: 20px;
+}
+.rank-40 {
+	background: url('../img/ranks.gif') no-repeat -61px -86px;
+	width: 19px;
+	height: 24px;
+}
+.rank-41 {
+	background: url('../img/ranks.gif') no-repeat -81px -86px;
+	width: 19px;
+	height: 28px;
+}
+.rank-42 {
+	background: url('../img/ranks.gif') no-repeat -101px -86px;
+	width: 19px;
+	height: 32px;
+}
+.rank-43 {
+	background: url('../img/ranks.gif') no-repeat -121px -86px;
+	width: 19px;
+	height: 32px;
+}
+.rank-44 {
+	background: url('../img/ranks.gif') no-repeat -141px -86px;
+	width: 19px;
+	height: 39px;
+}
+.rank-45 {
+	background: url('../img/ranks.gif') no-repeat -161px -86px;
+	width: 19px;
+	height: 39px;
+}
+.rank-46 {
+	background: url('../img/ranks.gif') no-repeat -181px -86px;
+	width: 19px;
+	height: 39px;
+}
+.rank-47 {
+	background: url('../img/ranks.gif') no-repeat -201px -86px;
+	width: 19px;
+	height: 39px;
+}
+.rank-48 {
+	background: url('../img/ranks.gif') no-repeat -1px -176px;
+	width: 19px;
+	height: 20px;
+}
+.rank-49 {
+	background: url('../img/ranks.gif') no-repeat -21px -176px;
+	width: 19px;
+	height: 20px;
+}
+.rank-50 {
+	background: url('../img/ranks.gif') no-repeat -41px -176px;
+	width: 19px;
+	height: 24px;
+}
+.rank-51 {
+	background: url('../img/ranks.gif') no-repeat -61px -176px;
+	width: 19px;
+	height: 28px;
+}
+.rank-52 {
+	background: url('../img/ranks.gif') no-repeat -81px -176px;
+	width: 19px;
+	height: 32px;
+}
+.rank-53 {
+	background: url('../img/ranks.gif') no-repeat -101px -176px;
+	width: 19px;
+	height: 32px;
+}
+.rank-54 {
+	background: url('../img/ranks.gif') no-repeat -121px -176px;
+	width: 19px;
+	height: 32px;
+}
+.rank-55 {
+	background: url('../img/ranks.gif') no-repeat -141px -176px;
+	width: 19px;
+	height: 39px;
+}
+.rank-56 {
+	background: url('../img/ranks.gif') no-repeat -161px -176px;
+	width: 19px;
+	height: 39px;
+}
+.rank-57 {
+	background: url('../img/ranks.gif') no-repeat -181px -176px;
+	width: 19px;
+	height: 39px;
+}
+.rank-58 {
+	background: url('../img/ranks.gif') no-repeat -201px -176px;
+	width: 19px;
+	height: 39px;
+}
+.rank-59 {
+	background: url('../img/ranks.gif') no-repeat -1px -215px;
+	width: 6px;
+	height: 15px;
+}
+.rank-60 {
+	background: url('../img/ranks.gif') no-repeat -9px -215px;
+	width: 6px;
+	height: 15px;
+}
+.rank-61 {
+	background: url('../img/ranks.gif') no-repeat -17px -215px;
+	width: 15px;
+	height: 15px;
+}
+.rank-62 {
+	background: url('../img/ranks.gif') no-repeat -33px -211px;
+	width: 19px;
+	height: 19px;
+}
+.rank-63 {
+	background: url('../img/ranks.gif') no-repeat -53px -211px;
+	width: 19px;
+	height: 19px;
+}
+.rank-64 {
+	background: url('../img/ranks.gif') no-repeat -75px -219px;
+	width: 28px;
+	height: 12px;
+}
+.rank-65 {
+	background: url('../img/ranks.gif') no-repeat -108px -216px;
+	width: 17px;
+	height: 15px;
+}
+.rank-66 {
+	background: url('../img/ranks.gif') no-repeat -129px -216px;
+	width: 33px;
+	height: 15px;
+}
+.rank-67 {
+	background: url('../img/ranks.gif') no-repeat -165px -216px;
+	width: 49px;
+	height: 15px;
+}
+.rank-68 {
+	background: url('../img/ranks.gif') no-repeat -216px -216px;
+	width: 65px;
+	height: 15px;
+}
+.rank-69 {
+	background: url('../img/ranks.gif') no-repeat -287px -203px;
+	width: 45px;
+	height: 37px;
+}
+
+
+
+
+
+
+
+
+
+.small-rank-1 {
+	background: url('../img/ranks.gif') no-repeat -1px -12px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 6px;
+}
+.small-rank-2 {
+	background: url('../img/ranks.gif') no-repeat -13px -11px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 7px;
+}
+.small-rank-3 {
+	background: url('../img/ranks.gif') no-repeat -25px -9px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 8px;
+}
+.small-rank-4 {
+	background: url('../img/ranks.gif') no-repeat -37px -9px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 10px;
+}
+.small-rank-5 {
+	background: url('../img/ranks.gif') no-repeat -49px -9px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 11px;
+}
+.small-rank-6 {
+	background: url('../img/ranks.gif') no-repeat -61px -4px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 17px;
+}
+.small-rank-7 {
+	background: url('../img/ranks.gif') no-repeat -73px -4px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 17px;
+}
+.small-rank-8 {
+	background: url('../img/ranks.gif') no-repeat -85px -2px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 18px;
+}
+.small-rank-9 {
+	background: url('../img/ranks.gif') no-repeat -97px -2px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 18px;
+}
+.small-rank-10 {
+	background: url('../img/ranks.gif') no-repeat -109px -1px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 20px;
+}
+.small-rank-11 {
+	background: url('../img/ranks.gif') no-repeat -121px -1px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 20px;
+}
+.small-rank-12 {
+	background: url('../img/ranks.gif') no-repeat -133px -1px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 20px;
+}
+.small-rank-13 {
+	background: url('../img/ranks.gif') no-repeat -145px -1px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 20px;
+}
+
+
+
+.small-rank-14 {
+	background: url('../img/ranks.gif') no-repeat -1px -26px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 9px;
+}
+.small-rank-15 {
+	background: url('../img/ranks.gif') no-repeat -13px -27px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 11px;
+}
+.small-rank-16 {
+	background: url('../img/ranks.gif') no-repeat -25px -24px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 12px;
+}
+.small-rank-17 {
+	background: url('../img/ranks.gif') no-repeat -37px -28px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 9px;
+}
+.small-rank-18 {
+	background: url('../img/ranks.gif') no-repeat -49px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 14px;
+}
+.small-rank-19 {
+	background: url('../img/ranks.gif') no-repeat -61px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 16px;
+}
+.small-rank-20 {
+	background: url('../img/ranks.gif') no-repeat -73px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 19px;
+}
+.small-rank-21 {
+	background: url('../img/ranks.gif') no-repeat -85px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 21px;
+}
+.small-rank-22 {
+	background: url('../img/ranks.gif') no-repeat -97px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 21px;
+}
+.small-rank-23 {
+	background: url('../img/ranks.gif') no-repeat -109px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 21px;
+}
+.small-rank-24 {
+	background: url('../img/ranks.gif') no-repeat -121px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 21px;
+}
+.small-rank-25 {
+	background: url('../img/ranks.gif') no-repeat -133px -21px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 21px;
+}
+
+
+
+
+
+
+.small-rank-26 {
+	background: url('../img/ranks.gif') no-repeat -1px -69px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 9px;
+}
+.small-rank-27 {
+	background: url('../img/ranks.gif') no-repeat -13px -69px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 11px;
+}
+.small-rank-28 {
+	background: url('../img/ranks.gif') no-repeat -25px -66px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 14px;
+}
+.small-rank-29 {
+	background: url('../img/ranks.gif') no-repeat -37px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 16px;
+}
+.small-rank-30 {
+	background: url('../img/ranks.gif') no-repeat -49px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 16px;
+}
+.small-rank-31 {
+	background: url('../img/ranks.gif') no-repeat -61px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 19px;
+}
+.small-rank-32 {
+	background: url('../img/ranks.gif') no-repeat -73px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 21px;
+}
+.small-rank-33 {
+	background: url('../img/ranks.gif') no-repeat -85px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 21px;
+}
+.small-rank-34 {
+	background: url('../img/ranks.gif') no-repeat -97px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 24px;
+}
+.small-rank-35 {
+	background: url('../img/ranks.gif') no-repeat -109px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 24px;
+}
+.small-rank-36 {
+	background: url('../img/ranks.gif') no-repeat -121px -64px;
+	background-size: 167px 122px;
+	width: 12px;
+	height: 24px;
+}
+
+
+
+
+
+.small-rank-37 {
+	background: url('../img/ranks.gif') no-repeat -1px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 10px;
+}
+.small-rank-38 {
+	background: url('../img/ranks.gif') no-repeat -11px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 10px;
+}
+.small-rank-39 {
+	background: url('../img/ranks.gif') no-repeat -21px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 10px;
+}
+.small-rank-40 {
+	background: url('../img/ranks.gif') no-repeat -31px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 12px;
+}
+.small-rank-41 {
+	background: url('../img/ranks.gif') no-repeat -41px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 14px;
+}
+.small-rank-42 {
+	background: url('../img/ranks.gif') no-repeat -51px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 16px;
+}
+.small-rank-43 {
+	background: url('../img/ranks.gif') no-repeat -61px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 16px;
+}
+.small-rank-44 {
+	background: url('../img/ranks.gif') no-repeat -71px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+.small-rank-45 {
+	background: url('../img/ranks.gif') no-repeat -81px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+.small-rank-46 {
+	background: url('../img/ranks.gif') no-repeat -91px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+.small-rank-47 {
+	background: url('../img/ranks.gif') no-repeat -101px -43px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+
+
+
+
+
+
+
+.small-rank-48 {
+	background: url('../img/ranks.gif') no-repeat -1px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 10px;
+}
+.small-rank-49 {
+	background: url('../img/ranks.gif') no-repeat -11px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 10px;
+}
+.small-rank-50 {
+	background: url('../img/ranks.gif') no-repeat -21px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 12px;
+}
+.small-rank-51 {
+	background: url('../img/ranks.gif') no-repeat -31px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 14px;
+}
+.small-rank-52 {
+	background: url('../img/ranks.gif') no-repeat -41px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 16px;
+}
+.small-rank-53 {
+	background: url('../img/ranks.gif') no-repeat -51px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 16px;
+}
+.small-rank-54 {
+	background: url('../img/ranks.gif') no-repeat -61px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 16px;
+}
+.small-rank-55 {
+	background: url('../img/ranks.gif') no-repeat -71px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+.small-rank-56 {
+	background: url('../img/ranks.gif') no-repeat -81px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+.small-rank-57 {
+	background: url('../img/ranks.gif') no-repeat -91px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+.small-rank-58 {
+	background: url('../img/ranks.gif') no-repeat -101px -88px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 20px;
+}
+
+
+
+
+
+
+.small-rank-59 {
+	background: url('../img/ranks.gif') no-repeat -1px -108px;
+	background-size: 167px 122px;
+	width: 3px;
+	height: 8px;
+}
+.small-rank-60 {
+	background: url('../img/ranks.gif') no-repeat -5px -108px;
+	background-size: 167px 122px;
+	width: 3px;
+	height: 8px;
+}
+.small-rank-61 {
+	background: url('../img/ranks.gif') no-repeat -9px -108px;
+	background-size: 167px 122px;
+	width: 8px;
+	height: 8px;
+}
+.small-rank-62 {
+	background: url('../img/ranks.gif') no-repeat -17px -106px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 10px;
+}
+.small-rank-63 {
+	background: url('../img/ranks.gif') no-repeat -27px -106px;
+	background-size: 167px 122px;
+	width: 10px;
+	height: 10px;
+}
+.small-rank-64 {
+	background: url('../img/ranks.gif') no-repeat -38px -110px;
+	background-size: 167px 122px;
+	width: 14px;
+	height: 6px;
+}
+.small-rank-65 {
+	background: url('../img/ranks.gif') no-repeat -54px -108px;
+	background-size: 167px 122px;
+	width: 9px;
+	height: 8px;
+}
+.small-rank-66 {
+	background: url('../img/ranks.gif') no-repeat -65px -108px;
+	background-size: 167px 122px;
+	width: 17px;
+	height: 8px;
+}
+.small-rank-67 {
+	background: url('../img/ranks.gif') no-repeat -83px -108px;
+	background-size: 167px 122px;
+	width: 25px;
+	height: 8px;
+}
+.small-rank-68 {
+	background: url('../img/ranks.gif') no-repeat -108px -108px;
+	background-size: 167px 122px;
+	width: 33px;
+	height: 8px;
+}
+.small-rank-69 {
+	background: url('../img/ranks.gif') no-repeat -144px -102px;
+	background-size: 167px 122px;
+	width: 23px;
+	height: 19px;
+}
