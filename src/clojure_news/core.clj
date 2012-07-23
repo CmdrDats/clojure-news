@@ -91,10 +91,58 @@
 
 
 ;; == Web pages
-;(html/defsnippet )
+(html/defsnippet toc-participant "public/daily.html" [:.contents :.tocentry [:.participants (html/nth-of-type 1)] :> html/first-child] [participant]
+  [:.name] (html/content (:name participant))
+  [:.rank] (html/do->
+            (html/remove-attr :class)
+            (html/add-class (str "small-rank-" (:rank participant)) "rank"))
+  )
 
-(noir/defpage "/log" []
-  "Welcome in.")
+(html/defsnippet toc-entry "public/daily.html" [:.contents [:.tocentry (html/nth-of-type 1)]] [person title link participants]
+  [:.title] (html/content title)
+  [:.rank] (html/do->
+             (html/remove-attr :class)
+             (html/add-class (str "small-rank-" (:rank person)) "rank"))
+  [:.name] (html/content (:name person))
+  [:.toclink] (html/set-attr :href link)
+  [:.participants] (html/content (map toc-participant participants)))
+
+(html/defsnippet leaderentry "public/daily.html" [:.leaderboard [:li (html/nth-of-type 1)]] [person]
+  [:.rank] (html/do->
+            (html/remove-attr :class)
+            (html/add-class (str "small-rank-" (:rank person)) "rank"))
+  [:.name] (html/content (:name person))
+  )
+
+(html/defsnippet leaderboard "public/daily.html" [:.leaderboard] [leaders]
+  [:ol] (html/content (map leaderentry leaders)))
+
+(html/defsnippet chat-entry "public/daily.html" [:.best-snippet [:.chat (html/nth-of-type 1)]] [{:keys [person time text]}]
+  [:.rank] (html/do->
+            (html/remove-attr :class)
+            (html/add-class (str "small-rank-" (:rank person)) "rank"))
+  [:.name] (html/content (:name person))
+  [:.time] (html/content time)
+  [:.text] (html/content text)
+  )
+
+(html/defsnippet snippet "public/daily.html" [:.best-snippet] [{:keys [person title link log] :as snippet}]
+  [:.heading :.name] (html/content (:name person))
+  [:.heading :.rank] (html/do->
+                      (html/remove-attr :class)
+                      (html/add-class (str "small-rank-" (:rank person)) "rank"))
+  [:.heading :.title] (html/content title)
+  [:.snippetlink] (html/set-attr :href link)
+  [:.chatlog] (html/content (map chat-entry log)))
+
+(html/deftemplate daily-email "public/daily.html" [toc leaders best-snippet past-snippet]
+  [:.contents] (html/content (map #(toc-entry (:person %) (:title %) (:link %) (:participants %)) toc))
+  [:.leaderboard] (html/content (leaderboard leaders))
+  [:.best-snippet] (html/content (snippet best-snippet))
+  [:.past-snippet] (html/content (snippet past-snippet)))
+
+(noir/defpage "/test" []
+  (daily-email [{:person {:name "hello" :rank 4} :title "title" :link "lnk" :participants [{:name "rhickey" :rank 69}]}] [{:name "hello" :rank 4} {:name "rhickey" :rank 69}] {:person {:name "rhickey" :rank 69} :title "foo" :link "morelnk" :log [{:person {:name "rhickey" :rank 69} :time "3:45" :text "Why, what now?"}]} []))
 
 (def srv (atom nil))
 
