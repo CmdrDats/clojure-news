@@ -1,9 +1,9 @@
 (ns clojure-news.core
-  (:require [noir.core :as noir])
   (:require [net.cgrand.enlive-html :as html])
-  (:require [noir.server :as server]))
+  (:require [clojure-news.sql :as sql]))
 
 (def base-url "http://clojure-log.n01se.net/date/")
+(def bot-names #{"clojurebot" "sexpbot" "lazybot"})
 
 (defn cache-url [filename url]
   (let [cache-folder (java.io.File. "cache")
@@ -45,8 +45,10 @@
           (recur (first ot) (rest ot) name))))))
 
 (defn rank-line [ranks name text]
-  (let [current-rank (get ranks name 0)]
-    (assoc ranks name (+ current-rank (.length text)))))
+  (if (contains? bot-names name)
+    ranks
+    (let [current-rank (get ranks name 0)]
+      (assoc ranks name (+ current-rank (.length text))))))
 
 (defn rank-logs [files]
   (let [ranks (atom {})]
@@ -57,7 +59,7 @@
          (fn [_ _ name text]
            (swap! ranks rank-line name text))
          (get-log f))))
-    (into {} (take 50 (reverse (sort-by second @ranks))))))
+     @ranks))
 
 (defn to-minutes [time]
   (let [[h m] (seq (.split time ":"))]
@@ -83,68 +85,69 @@
       (swap! snippets conj @snippet))))
 
 (defn score-snippet [snippet ranks]
-  (reduce #(+ %1 (get ranks (second %2) 0)) 0 snippet))
+  (reduce #(+ %1 (get (get ranks (second %2)) :rank 0)) 0 snippet))
+
+(defn get-person [name ranks]
+  (get ranks name {:name name :rank 1}))
+
+(defn best-snippet [log ranks]
+  (let [snippets (split-snippets log)
+        best-snippet (reduce
+                      (fn [[oldscore oldsnip] newsnip]
+                        (let [newscore (score-snippet newsnip ranks)]
+                          (println newscore)
+                          (if (> oldscore newscore)
+                            [oldscore oldsnip]
+                            [newscore newsnip])))
+                      [0 []] snippets)]))
+
+
+(defn headlines [log ranks]
+  (let [snippets (split-snippets log)
+        sorted (reverse (sort-by #(score-snippet % ranks) snippets))]
+    (for [snip (take 4 sorted)
+          :let [head (first snip)]]
+      {:title (nth head 2)
+       :time (first head)
+       :person (get-person (second head) ranks)
+       :participants
+       (reduce (fn [people line] (conj people
+                                      (get-person (second line) ranks))) #{} snip)})))
 
 (defn print-snippet [snippet]
   (doseq [[time name text] snippet]
     (println (str time "\t" name ":\t" text))))
 
+(defn persist-ranks! [ranks]
+  (sql/with-db
+    (println "Saving ranks")
+    (let [existing (into {} (map (fn [{name :name :as rank}] [name rank]) (sql/rank-list)))]
+      (doseq [[name count] ranks
+              :let [ent (get existing name nil)]]
+        (sql/save-rank-entry (merge ent {:name name :count count}))))))
 
-;; == Web pages
-(html/defsnippet toc-participant "public/daily.html" [:.contents :.tocentry [:.participants (html/nth-of-type 1)] :> html/first-child] [participant]
-  [:.name] (html/content (:name participant))
-  [:.rank] (html/do->
-            (html/remove-attr :class)
-            (html/add-class (str "small-rank-" (:rank participant)) "rank"))
-  )
+(defn initial-setup []
+  (sql/create-db)
+  (sql/with-db
+    (sql/save-rank-entries
+     (map (fn [[n c]] {:name n :rank (get-rank c) :count c})
+          (rank-logs (log-list))))))
 
-(html/defsnippet toc-entry "public/daily.html" [:.contents [:.tocentry (html/nth-of-type 1)]] [person title link participants]
-  [:.title] (html/content title)
-  [:.rank] (html/do->
-             (html/remove-attr :class)
-             (html/add-class (str "small-rank-" (:rank person)) "rank"))
-  [:.name] (html/content (:name person))
-  [:.toclink] (html/set-attr :href link)
-  [:.participants] (html/content (map toc-participant participants)))
+(defn rank-map []
+  (sql/with-db
+    (into {} (map (fn [{n :name :as rank}] [n rank]) (sql/rank-list)))))
 
-(html/defsnippet leaderentry "public/daily.html" [:.leaderboard [:li (html/nth-of-type 1)]] [person]
-  [:.rank] (html/do->
-            (html/remove-attr :class)
-            (html/add-class (str "small-rank-" (:rank person)) "rank"))
-  [:.name] (html/content (:name person))
-  )
+(defn rank-top [n]
+  (sql/with-db
+    (take n (reverse (sql/rank-list)))))
 
-(html/defsnippet leaderboard "public/daily.html" [:.leaderboard] [leaders]
-  [:ol] (html/content (map leaderentry leaders)))
+(defn get-rank [count]
+  ;; Handy, DND level algorithm works perfect here...
+  (min 69 (Math/floor (/ (+ 1 (Math/sqrt (+ (/ count 125) 1))) 2))))
 
-(html/defsnippet chat-entry "public/daily.html" [:.best-snippet [:.chat (html/nth-of-type 1)]] [{:keys [person time text]}]
-  [:.rank] (html/do->
-            (html/remove-attr :class)
-            (html/add-class (str "small-rank-" (:rank person)) "rank"))
-  [:.name] (html/content (:name person))
-  [:.time] (html/content time)
-  [:.text] (html/content text)
-  )
+;; (sql/with-db
+;;   (sql/save-rank-entries
+;;    (map (fn [[n c]] {:name n :rank (get-rank c) :count c}) ranks)))
 
-(html/defsnippet snippet "public/daily.html" [:.best-snippet] [{:keys [person title link log] :as snippet}]
-  [:.heading :.name] (html/content (:name person))
-  [:.heading :.rank] (html/do->
-                      (html/remove-attr :class)
-                      (html/add-class (str "small-rank-" (:rank person)) "rank"))
-  [:.heading :.title] (html/content title)
-  [:.snippetlink] (html/set-attr :href link)
-  [:.chatlog] (html/content (map chat-entry log)))
-
-(html/deftemplate daily-email "public/daily.html" [toc leaders best-snippet past-snippet]
-  [:.contents] (html/content (map #(toc-entry (:person %) (:title %) (:link %) (:participants %)) toc))
-  [:.leaderboard] (html/content (leaderboard leaders))
-  [:.best-snippet] (html/content (snippet best-snippet))
-  [:.past-snippet] (html/content (snippet past-snippet)))
-
-(noir/defpage "/test" []
-  (daily-email [{:person {:name "hello" :rank 4} :title "title" :link "lnk" :participants [{:name "rhickey" :rank 69}]}] [{:name "hello" :rank 4} {:name "rhickey" :rank 69}] {:person {:name "rhickey" :rank 69} :title "foo" :link "morelnk" :log [{:person {:name "rhickey" :rank 69} :time "3:45" :text "Why, what now?"}]} []))
-
-(def srv (atom nil))
-
-(defn start-server []
-  (compare-and-set! srv @srv (server/start 8080)))
+;; Initial rank import:
+;; (initial-setup)
