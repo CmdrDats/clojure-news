@@ -95,11 +95,11 @@
         best-snippet (reduce
                       (fn [[oldscore oldsnip] newsnip]
                         (let [newscore (score-snippet newsnip ranks)]
-                          (println newscore)
                           (if (> oldscore newscore)
                             [oldscore oldsnip]
                             [newscore newsnip])))
-                      [0 []] snippets)]))
+                      [0 []] snippets)]
+    (second best-snippet)))
 
 
 (defn headlines [log ranks]
@@ -126,6 +126,10 @@
               :let [ent (get existing name nil)]]
         (sql/save-rank-entry (merge ent {:name name :count count}))))))
 
+(defn get-rank [count]
+  ;; Handy, DND level algorithm works perfect here...
+  (min 69 (Math/floor (/ (+ 1 (Math/sqrt (+ (/ count 125) 1))) 2))))
+
 (defn initial-setup []
   (sql/create-db)
   (sql/with-db
@@ -141,9 +145,6 @@
   (sql/with-db
     (take n (reverse (sql/rank-list)))))
 
-(defn get-rank [count]
-  ;; Handy, DND level algorithm works perfect here...
-  (min 69 (Math/floor (/ (+ 1 (Math/sqrt (+ (/ count 125) 1))) 2))))
 
 ;; (sql/with-db
 ;;   (sql/save-rank-entries

@@ -67,7 +67,7 @@
 
 (noir/defpage "/test" []
   (let [ranks (core/rank-map)
-        log (core/get-log "2012-07-24.html")
+        log (core/get-log "2012-07-20.html")
         best-snippet (convert-snippet (core/best-snippet log ranks) ranks)
         headlines (core/headlines log ranks)]
     (daily-email headlines (core/rank-top 10) best-snippet [])
