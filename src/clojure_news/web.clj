@@ -25,7 +25,7 @@
 (html/defsnippet leaderentry "public/daily.html" [:.leaderboard :ol [:li (html/nth-of-type 1)]] [person]
   [:.rank] (html/do->
             (html/remove-attr :class)
-            (html/add-class (str "small-rank-" (:rank person)) "rank"))
+            (html/add-class (str "rank-" (:rank person)) "rank"))
   [:.name] (html/content (:name person))
   )
 
