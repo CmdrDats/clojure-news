@@ -8,3 +8,6 @@
 /.lein-deps-sum
 cache
 db
+.nrepl-port
+.lein-repl-history
+target

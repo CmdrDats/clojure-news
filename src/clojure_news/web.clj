@@ -1,9 +1,8 @@
 (ns clojure-news.web
-  (:require [noir.core :as noir])
-  (:require [net.cgrand.enlive-html :as html])
-  (:require [clojure-news.sql :as sql])
-  (:require [clojure-news.core :as core])
-  (:require [noir.server :as server]))
+  (:require [noir.core :as noir]
+            [net.cgrand.enlive-html :as html]
+            [clojure-news.core :as core]
+            [noir.server :as server]))
 
 ;; == Web pages
 (html/defsnippet toc-participant "public/daily.html" [:.contents :.tocentry [:.participants (html/nth-of-type 1)] :> html/first-child] [participant]
@@ -70,9 +69,7 @@
         log (core/get-log "2012-07-20.html")
         best-snippet (convert-snippet (core/best-snippet log ranks) ranks)
         headlines (core/headlines log ranks)]
-    (daily-email headlines (core/rank-top 10) best-snippet [])
-    )
-  )
+    (daily-email headlines (core/rank-top 10) best-snippet [])))
 
 (def srv (atom nil))
 
