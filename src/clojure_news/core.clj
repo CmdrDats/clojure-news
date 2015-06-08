@@ -1,6 +1,6 @@
 (ns clojure-news.core
-  (:require [net.cgrand.enlive-html :as html])
-  (:require [clojure-news.sql :as sql]))
+  (:require [net.cgrand.enlive-html :as html]
+            [clojure-news.db :as db]))
 
 (def base-url "http://clojure-log.n01se.net/date/")
 (def bot-names #{"clojurebot" "sexpbot" "lazybot"})
@@ -10,7 +10,7 @@
         file (java.io.File. cache-folder filename)]
     (when-not (.exists cache-folder)
       (.mkdir cache-folder))
-    
+
     (when-not (.exists file)
       (spit file (apply str (html/emit* (html/html-resource (java.net.URL. url))))))
     file))
@@ -119,36 +119,23 @@
     (println (str time "\t" name ":\t" text))))
 
 (defn persist-ranks! [ranks]
-  (sql/with-db
-    (println "Saving ranks")
-    (let [existing (into {} (map (fn [{name :name :as rank}] [name rank]) (sql/rank-list)))]
-      (doseq [[name count] ranks
-              :let [ent (get existing name nil)]]
-        (sql/save-rank-entry (merge ent {:name name :count count}))))))
+  (println "Saving ranks")
+  (let [existing (into {} (map (fn [{name :name :as rank}] [name rank]) @db/rank-list))]
+    (doseq [[name count] ranks
+            :let [ent (get existing name nil)]]
+      (db/save-rank! (assoc ent :name name, :count count)))))
 
 (defn get-rank [count]
   ;; Handy, DND level algorithm works perfect here...
   (min 69 (Math/floor (/ (+ 1 (Math/sqrt (+ (/ count 125) 1))) 2))))
 
 (defn initial-setup []
-  (sql/create-db)
-  (sql/with-db
-    (sql/save-rank-entries
-     (map (fn [[n c]] {:name n :rank (get-rank c) :count c})
-          (rank-logs (log-list))))))
+  (db/save-ranks!
+    (map (fn [[n c]] {:name n :rank (get-rank c) :count c})
+         (rank-logs (log-list)))))
 
 (defn rank-map []
-  (sql/with-db
-    (into {} (map (fn [{n :name :as rank}] [n rank]) (sql/rank-list)))))
+  (into {} (map (fn [{n :name :as rank}] [n rank]) @db/rank-list)))
 
 (defn rank-top [n]
-  (sql/with-db
-    (take n (reverse (sql/rank-list)))))
-
-
-;; (sql/with-db
-;;   (sql/save-rank-entries
-;;    (map (fn [[n c]] {:name n :rank (get-rank c) :count c}) ranks)))
-
-;; Initial rank import:
-;; (initial-setup)
+  (take n (reverse @db/rank-list)))
