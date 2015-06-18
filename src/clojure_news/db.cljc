@@ -1,19 +1,32 @@
 (ns clojure-news.db
-  (:require [matchbox.core :as m]
-            [matchbox.atom :as matom]))
+  #?(:cljs (:refer-clojure :exclude [atom]))
+  (:require
+    [matchbox.core :as m]
+    [matchbox.atom :as a]
+    #?(:cljs [reagent.core :refer [atom]])))
 
 (def db-uri "http://luminous-torch-5788.firebaseio.com")
 
 (def db-ref (m/connect db-uri))
 
 ;; Layout: {:ranks {name {:name, :rank}}}
+(defonce rat (atom nil))
 
 (def rank-list
-  (matom/sync-list
-    (atom [])
+  (a/sync-list
+    rat
     (-> db-ref
       (m/get-in :ranks)
-      (m/order-by-child :count))))
+      (m/order-by-child :rank)
+      (m/take-last 10))))
+
+(defonce pat (atom nil))
+
+(def past-snippets
+  (a/sync-list
+    pat
+    (-> db-ref
+      (m/get-in :snippets))))
 
 (defn save-rank! [rank]
   (m/reset-in! db-ref [:ranks (:name rank)] rank))

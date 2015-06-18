@@ -1,0 +1,19 @@
+h1 {
+    color: red;
+}
+
+.nameblock {
+    float: left;
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 100px;
+}
+
+.rank {
+    width:65px;
+    height: 47px;
+    margin:0;
+}
+
+
