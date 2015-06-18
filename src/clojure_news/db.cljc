@@ -13,17 +13,15 @@
 (defonce rat (atom nil))
 
 (def rank-list
-  (a/sync-list
+  (a/sync-r
     rat
     (-> db-ref
-      (m/get-in :ranks)
-      (m/order-by-child :rank)
-      (m/take-last 10))))
+      (m/get-in :ranks))))
 
 (defonce pat (atom nil))
 
 (def past-snippets
-  (a/sync-list
+  (a/sync-r
     pat
     (-> db-ref
       (m/get-in :snippets))))

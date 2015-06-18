@@ -5,19 +5,32 @@
     [clojure-news.db :as db]))
 
 (defn person [{:keys [name rank]}]
-  [:div.nameblock [:div.rank [:div {:class (str "rank-" rank)}]] "Hi, I am " name ", rank: " rank])
+  [:div.nameblock [:div.rank [:div {:class (str "rank-" rank)}]] "I am " name ", Rank: " rank])
 
 (defn leaderboard []
   [:div
-   (for [ch @db/rank-list]
+   (for [[n ch] @db/rank-list]
      ^{:key (:name ch)}
      [person ch]
      )])
 
+(defn snippet [dt snippet]
+  (into [:div [:h2 (name dt)]]
+    (for [{:keys [name time text]} (:best snippet)]
+      [:div [:div {:class (str "small-rank-" (get-in @db/rank-list [(keyword name) :rank]))}]
+       [:span time " "] [:b name " :: "] [:span text " "]])))
+
+(defn show-snippets []
+  (into [:div]
+    (for [[dt sn] @db/past-snippets]
+      [:div [snippet dt sn] [:hr]])))
 
 (defn mountit []
   (reagent/render-component
-    [leaderboard]
+    [:div
+     [show-snippets]
+     [:hr]
+     [leaderboard]]
     (.-body js/document)))
 
 (mountit)
