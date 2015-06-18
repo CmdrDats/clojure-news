@@ -28,21 +28,23 @@
     (println "Caching:" filename)
     (cache-url filename (str base-url filename))))
 
-(defn run-log [line-fn log]
-  (let [lines (html/select log [:p])]
-    (loop [ln (first lines)
-           ot (rest lines)
-           person nil]
-      (let [time (html/text (first (html/select ln [:a])))
-            seperation (html/select ln [:.nh])
-            name (or (first (:content (first (html/select ln [:em]))))
-                     (first (:content (first (html/select ln [:b]))))
-                     person)
-            text (html/text (last (:content ln)))]
-        (when (> (.length text) 0)
-          (line-fn seperation time (.replace (.trim name) ":" "") (.trim text)))
-        (when ln
-          (recur (first ot) (rest ot) name))))))
+;;
+
+(defn parse-name [ln]
+  (when-let [raw (or (first (:content (first (html/select ln [:em]))))
+                (first (:content (first (html/select ln [:b])))))]
+    (-> raw .trim (.replace ":" ""))))
+
+(defn parse-time [ln]
+  (html/text (first (html/select ln [:a]))))
+
+(defn parse-separation [ln]
+  (html/select ln [:.nh]))
+
+(defn parse-text [ln]
+  (.trim (html/text (last (:content ln)))))
+
+;;
 
 (defn rank-line [ranks name text]
   (if (contains? bot-names name)
@@ -50,16 +52,23 @@
     (let [current-rank (get ranks name 0)]
       (assoc ranks name (+ current-rank (.length text))))))
 
+(defn parse-lines [log]
+  (let [lines (html/select log [:p])]
+    (let [names       (reductions #(or %2 %1) (map parse-name lines))
+          times       (map parse-time lines)
+          separations (map parse-separation lines)
+          texts       (map parse-text lines)]
+      (map vector separations times names texts))))
+
 (defn rank-logs [files]
   (let [ranks (atom {})]
     (doseq [f files]
       (when (.exists (java.io.File. (str "cache/" f)))
         (println "Ranking" f)
-        (run-log
-         (fn [_ _ name text]
-           (swap! ranks rank-line name text))
-         (get-log f))))
-     @ranks))
+        (doseq [[_ _ name text] (parse-lines (get-log f))]
+          (when (seq text)
+            (swap! ranks rank-line name text)))))
+    @ranks))
 
 (defn to-minutes [time]
   (let [[h m] (seq (.split time ":"))]
@@ -71,16 +80,16 @@
   (let [last-time (atom 0)
         snippet (atom [])
         snippets (atom [])]
-    (run-log (fn [sep time name text]
-               (let [tm (to-minutes time)
-                     t (- tm @last-time)]
-                 (when (and (> @last-time 0) (> t 10))
-                   (when @snippet
-                     (swap! snippets conj @snippet))
-                   (compare-and-set! snippet @snippet []))
-                 (compare-and-set! last-time @last-time tm))
-               (swap! snippet conj [time name text])
-               ) log)
+    (doseq [[[sep time name text]] log]
+      (do
+        (let [tm (to-minutes time)
+              t (- tm @last-time)]
+          (when (and (> @last-time 0) (> t 10))
+            (when @snippet
+              (swap! snippets conj @snippet))
+            (compare-and-set! snippet @snippet []))
+          (compare-and-set! last-time @last-time tm))
+        (swap! snippet conj [time name text])))
     (if (> (count @snippet) 0)
       (swap! snippets conj @snippet))))
 
