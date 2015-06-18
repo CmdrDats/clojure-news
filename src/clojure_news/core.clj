@@ -1,6 +1,7 @@
 (ns clojure-news.core
   (:require [net.cgrand.enlive-html :as html]
-            [clojure-news.db :as db]))
+            [clojure-news.db :as db]
+            [clojure.string :as str]))
 
 (def base-url "http://clojure-log.n01se.net/date/")
 (def bot-names #{"clojurebot" "sexpbot" "lazybot"})
@@ -33,7 +34,7 @@
 (defn parse-name [ln]
   (when-let [raw (or (first (:content (first (html/select ln [:em]))))
                 (first (:content (first (html/select ln [:b])))))]
-    (-> raw .trim (.replace ":" ""))))
+    (-> raw .trim (str/replace ":" "") (str/replace #"_*$|^_*" ""))))
 
 (defn parse-time [ln]
   (html/text (first (html/select ln [:a]))))
@@ -80,7 +81,7 @@
   (let [last-time (atom 0)
         snippet (atom [])
         snippets (atom [])]
-    (doseq [[[sep time name text]] log]
+    (doseq [[sep time name text] (parse-lines log)]
       (do
         (let [tm (to-minutes time)
               t (- tm @last-time)]
@@ -89,12 +90,12 @@
               (swap! snippets conj @snippet))
             (compare-and-set! snippet @snippet []))
           (compare-and-set! last-time @last-time tm))
-        (swap! snippet conj [time name text])))
+        (swap! snippet conj {:time time :name name :text text})))
     (if (> (count @snippet) 0)
       (swap! snippets conj @snippet))))
 
 (defn score-snippet [snippet ranks]
-  (reduce #(+ %1 (get (get ranks (second %2)) :rank 0)) 0 snippet))
+  (reduce #(+ %1 (get (get ranks (:name %2)) :rank 0)) 0 snippet))
 
 (defn get-person [name ranks]
   (get ranks name {:name name :rank 1}))
@@ -148,3 +149,16 @@
 
 (defn rank-top [n]
   (take n (reverse @db/rank-list)))
+
+
+(comment
+  (initial-setup)
+  (def date (rand-nth (vec (log-list))))
+  (def log (get-log date))
+  (def ranks (rank-map))
+  (def snippet-value   (best-snippet log ranks))
+  (count snippet-value)
+  (def snippet-key (str/replace date ".html" "")))
+
+
+(rand-nth [1 2 3])
