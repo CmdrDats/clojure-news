@@ -1,29 +1,43 @@
 (ns clojure-news.core
+  (:import java.io.File
+           java.net.URL)
   (:require [net.cgrand.enlive-html :as html]
             [clojure-news.db :as db]
             [clojure.string :as str]))
 
 (def base-url "http://clojure-log.n01se.net/date/")
+
 (def bot-names #{"clojurebot" "sexpbot" "lazybot"})
 
-(defn cache-url [filename url]
-  (let [cache-folder (java.io.File. "cache")
-        file (java.io.File. cache-folder filename)]
+(def cache-folder-name "cache")
+
+(defn cache-url
+  "Cache URL result in filename, return file."
+  [filename url]
+  (let [cache-folder (File. cache-folder-name)
+        file (File. cache-folder filename)]
     (when-not (.exists cache-folder)
       (.mkdir cache-folder))
-
     (when-not (.exists file)
-      (spit file (apply str (html/emit* (html/html-resource (java.net.URL. url))))))
+      (spit file (apply str (html/emit* (html/html-resource (URL. url))))))
     file))
 
-(defn get-log [filename]
+(defn get-log
+  "Return HTML contents for remote file. Cached."
+  [filename]
   (html/html-resource
    (cache-url filename (str base-url filename))))
 
-(defn log-list []
-  (filter #(re-find #"^[0-9]{4}" %) (map html/text (html/select (html/html-resource (cache-url "index.html" base-url)) [:a]))))
+(defn log-list
+  "Return seq of all log archives from log index."
+  []
+  (let [index-file (cache-url "index.html" base-url)]
+    (filter #(re-find #"^[0-9]{4}" %)
+            (map html/text (html/select (html/html-resource index-file) [:a])))))
 
-(defn cache-logs []
+(defn cache-logs
+  "Build local cache of all log archives."
+  []
   (println "Starting cache")
   (doseq [filename (log-list)]
     (println "Caching:" filename)
@@ -34,7 +48,7 @@
 (defn parse-name [ln]
   (when-let [raw (or (first (:content (first (html/select ln [:em]))))
                 (first (:content (first (html/select ln [:b])))))]
-    (-> raw .trim (str/replace ":" "") (str/replace #"_*$|^_*" ""))))
+    (-> raw .trim (str/replace #":|^_*|\.|\[|\]|_*$" "") (str/replace "[" ""))))
 
 (defn parse-time [ln]
   (html/text (first (html/select ln [:a]))))
@@ -71,13 +85,17 @@
             (swap! ranks rank-line name text)))))
     @ranks))
 
-(defn to-minutes [time]
+(defn to-minutes
+  "Convert timestamp to minutes (within the day)"
+  [time]
   (let [[h m] (seq (.split time ":"))]
     (try
       (+ (* (Long/parseLong h) 60) (Long/parseLong m))
       (catch Exception e 0))))
 
-(defn split-snippets [log]
+(defn split-snippets
+  "Build a seq of snippets, based on chunking all logs (for a day)"
+  [log]
   (let [last-time (atom 0)
         snippet (atom [])
         snippets (atom [])]
@@ -94,13 +112,19 @@
     (if (> (count @snippet) 0)
       (swap! snippets conj @snippet))))
 
-(defn score-snippet [snippet ranks]
-  (reduce #(+ %1 (get (get ranks (:name %2)) :rank 0)) 0 snippet))
+(defn score-snippet
+  "Caclulate total score for snippet, from the rank of each user, for each line."
+  [snippet ranks]
+  (reduce + 0 (map #(get (get ranks (:name %)) :rank 0) snippet)))
 
-(defn get-person [name ranks]
+(defn get-person
+  "Lookup entry by name, return rank-1 stub otherwise"
+  [name ranks]
   (get ranks name {:name name :rank 1}))
 
-(defn best-snippet [log ranks]
+(defn best-snippet
+  "Calculate best snippet (of the day)"
+  [log ranks]
   (let [snippets (split-snippets log)
         best-snippet (reduce
                       (fn [[oldscore oldsnip] newsnip]
@@ -112,7 +136,9 @@
     (second best-snippet)))
 
 
-(defn headlines [log ranks]
+(defn headlines
+  "Create summary of top 4 snippets for the day"
+  [log ranks]
   (let [snippets (split-snippets log)
         sorted (reverse (sort-by #(score-snippet % ranks) snippets))]
     (for [snip (take 4 sorted)
@@ -124,18 +150,24 @@
        (reduce (fn [people line] (conj people
                                       (get-person (second line) ranks))) #{} snip)})))
 
-(defn print-snippet [snippet]
+(defn print-snippet
+  "Print snippet to console"
+  [snippet]
   (doseq [[time name text] snippet]
     (println (str time "\t" name ":\t" text))))
 
-(defn persist-ranks! [ranks]
+(defn persist-ranks!
+  "Save ranks map to db."
+  [ranks]
   (println "Saving ranks")
   (let [existing (into {} (map (fn [{name :name :as rank}] [name rank]) @db/rank-list))]
     (doseq [[name count] ranks
             :let [ent (get existing name nil)]]
       (db/save-rank! (assoc ent :name name, :count count)))))
 
-(defn get-rank [count]
+(defn get-rank
+  "Calculate rank from count (sublinear)"
+  [count]
   ;; Handy, DND level algorithm works perfect here...
   (min 69 (Math/floor (/ (+ 1 (Math/sqrt (+ (/ count 125) 1))) 2))))
 
@@ -147,18 +179,14 @@
 (defn rank-map []
   (into {} (map (fn [{n :name :as rank}] [n rank]) @db/rank-list)))
 
-(defn rank-top [n]
-  (take n (reverse @db/rank-list)))
-
 
 (comment
-  (initial-setup)
-  (def date (rand-nth (vec (log-list))))
-  (def log (get-log date))
-  (def ranks (rank-map))
-  (def snippet-value   (best-snippet log ranks))
-  (count snippet-value)
-  (def snippet-key (str/replace date ".html" "")))
+  (time
+   (initial-setup))
 
-
-(rand-nth [1 2 3])
+  (defn calculate-snippet []
+    (def date (rand-nth (vec (log-list))))
+    (def log (get-log date))
+    (def ranks (rank-map))
+    (def snippet-value   (best-snippet log ranks))
+    (def snippet-key (str/replace date ".html" ""))))

@@ -11,3 +11,5 @@ db
 .nrepl-port
 .lein-repl-history
 target
+resources/public/js
+figwheel_server.log
