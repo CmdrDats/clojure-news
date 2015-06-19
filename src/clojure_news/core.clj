@@ -61,12 +61,6 @@
 
 ;;
 
-(defn rank-line [ranks name text]
-  (if (contains? bot-names name)
-    ranks
-    (let [current-rank (get ranks name 0)]
-      (assoc ranks name (+ current-rank (.length text))))))
-
 (defn parse-lines [log]
   (let [lines (html/select log [:p])]
     (let [names       (reductions #(or %2 %1) (map parse-name lines))
@@ -75,15 +69,26 @@
           texts       (map parse-text lines)]
       (map vector separations times names texts))))
 
-(defn rank-logs [files]
-  (let [ranks (atom {})]
-    (doseq [f files]
-      (when (.exists (java.io.File. (str "cache/" f)))
-        (println "Ranking" f)
-        (doseq [[_ _ name text] (parse-lines (get-log f))]
-          (when (seq text)
-            (swap! ranks rank-line name text)))))
-    @ranks))
+(defn cached? [f]
+  (.exists (java.io.File. (str "cache/" f))))
+
+(defn rank-logs
+  "Caclulate map of names to ranking value."
+  [files]
+  (let [ranks (transient {})]
+    (->> files
+         (filter cached?)
+         (mapcat #(html/select % [:p]))
+         (map (juxt parse-name parse-text))
+         (filter (comp seq last))
+         (remove (comp bot-names first))
+         (map (fn [[name text]] [name (.length text)]))
+         (reduce (fn [[r last-name] [name length]]
+                   (let [name (or name last-name)]
+                     [(assoc! r name (+ length (get r name 0))) name]))
+                 [(transient {}) nil])
+         (first)
+         (persistent!))))
 
 (defn to-minutes
   "Convert timestamp to minutes (within the day)"
