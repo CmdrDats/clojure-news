@@ -78,6 +78,7 @@
   (let [ranks (transient {})]
     (->> files
          (filter cached?)
+         (map get-log)
          (mapcat #(html/select % [:p]))
          (map (juxt parse-name parse-text))
          (filter (comp seq last))
